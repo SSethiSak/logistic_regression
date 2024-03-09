@@ -20,16 +20,9 @@ def sigmoid(z):
     s -- sigmoid(z)
     """
 
-    #(≈ 1 line of code)
-    # s = ...
-    # YOUR CODE STARTS HERE
     s = 1 / (1 + np.exp(-z))
-    
-    # YOUR CODE ENDS HERE
-    
-    return s
 
-# GRADED FUNCTION: initialize_with_zeros
+    return s
 
 def initialize_with_zeros(dim):
     """
@@ -43,13 +36,9 @@ def initialize_with_zeros(dim):
     b -- initialized scalar (corresponds to the bias) of type float
     """
     
-    # (≈ 2 lines of code)
-    # w = ...
-    # b = ...
-    # YOUR CODE STARTS HERE
+
     w = np.zeros((dim, 1))
     b = float(0)
-    # YOUR CODE ENDS HERE
 
     return w, b
 
@@ -76,25 +65,15 @@ def propagate(w, b, X, Y):
     m = X.shape[1]
     
     # FORWARD PROPAGATION (FROM X TO COST)
-    #(≈ 2 lines of code)
-    # compute activation
-    # A = ...
-    # compute cost by using np.dot to perform multiplication. 
-    # And don't use loops for the sum.
-    # cost = ...                                
-    # YOUR CODE STARTS HERE
+
     A = sigmoid(np.dot(w.T, X) + b)
     cost =  -1/m * (np.sum(Y * np.log(A) + (1 - Y) *  np.log(1 - A)))
-    # YOUR CODE ENDS HERE
 
     # BACKWARD PROPAGATION (TO FIND GRAD)
-    #(≈ 2 lines of code)
-    # dw = ...
-    # db = ...
-    # YOUR CODE STARTS HERE
+
     dw = 1/m * np.dot(X, (A - Y).T)
     db = 1/m * np.sum(A - Y)
-    # YOUR CODE ENDS HERE
+
     cost = np.squeeze(np.array(cost))
 
     
@@ -103,7 +82,7 @@ def propagate(w, b, X, Y):
     
     return grads, cost
 
-# GRADED FUNCTION: optimize
+
 
 def optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=False):
     """
@@ -135,26 +114,18 @@ def optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=Fal
     costs = []
     
     for i in range(num_iterations):
-        # (≈ 1 lines of code)
         # Cost and gradient calculation 
-        # grads, cost = ...
-        # YOUR CODE STARTS HERE
         grads, cost = propagate(w, b, X, Y)
         
-        # YOUR CODE ENDS HERE
-        
+
         # Retrieve derivatives from grads
         dw = grads["dw"]
         db = grads["db"]
         
-        # update rule (≈ 2 lines of code)
-        # w = ...
-        # b = ...
-        # YOUR CODE STARTS HERE
+
         w = w - (learning_rate * dw)
         b = b - (learning_rate * db)
-        # YOUR CODE ENDS HERE
-        
+
         # Record the costs
         if i % 100 == 0:
             costs.append(cost)
@@ -172,7 +143,6 @@ def optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=Fal
     return params, grads, costs
 
 
-# GRADED FUNCTION: predict
 
 def predict(w, b, X):
     '''
@@ -192,32 +162,18 @@ def predict(w, b, X):
     w = w.reshape(X.shape[0], 1)
     
     # Compute vector "A" predicting the probabilities of a cat being present in the picture
-    #(≈ 1 line of code)
-    # A = ...
-    # YOUR CODE STARTS HERE
     A = sigmoid(np.dot(w.T, X) + b)
     
-    # YOUR CODE ENDS HERE
-    
+
     for i in range(A.shape[1]):
         
         # Convert probabilities A[0,i] to actual predictions p[0,i]
-        #(≈ 4 lines of code)
-        # if A[0, i] > ____ :
-        #     Y_prediction[0,i] = 
-        # else:
-        #     Y_prediction[0,i] = 
-        # YOUR CODE STARTS HERE
         if A[0, i] > 0.5:
             Y_prediction[0, i] = 1
         else:
             Y_prediction[0, i] = 0
-        # YOUR CODE ENDS HERE
     
     return Y_prediction
-
-
-# GRADED FUNCTION: model
 
 def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0.5, print_cost=False):
     """
@@ -235,24 +191,7 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0
     Returns:
     d -- dictionary containing information about the model.
     """
-    # (≈ 1 line of code)   
-    # initialize parameters with zeros
-    # and use the "shape" function to get the first dimension of X_train
-    # w, b = ...
-    
-    #(≈ 1 line of code)
-    # Gradient descent 
-    # params, grads, costs = ...
-    
-    # Retrieve parameters w and b from dictionary "params"
-    # w = ...
-    # b = ...
-    
-    # Predict test/train set examples (≈ 2 lines of code)
-    # Y_prediction_test = ...
-    # Y_prediction_train = ...
-    
-    # YOUR CODE STARTS HERE
+
 
     w, b = initialize_with_zeros(X_train.shape[0])
     
@@ -262,7 +201,6 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0
     
     Y_prediction_test = predict(w, b, X_test)
     Y_prediction_train = predict(w, b, X_train)
-    # YOUR CODE ENDS HERE
 
     # Print train/test Errors
     if print_cost:
